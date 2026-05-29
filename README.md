@@ -1,92 +1,83 @@
 # 🌤️ 天气机器人 (Weather Robot)
 
-一个通过企业微信每天定时推送天气消息的智能助手。支持多城市推送、GitHub Actions 云端部署。
+一个通过企业微信每天定时推送天气消息的智能助手。支持多城市推送、GitHub Actions 云端部署，**零基础用户也可在 5 分钟内完成部署**。
 
-## 功能特性
+## 🌟 功能特性
 
 - 🌡️ **精准数据**：实时获取温度、湿度、风力及天气状况。
 - 👗 **穿着建议**：根据实时温度自动推荐今日穿搭。
 - ☔ **带伞提醒**：分析降雨概率，提前预警。
-- 🏙️ **多城推送**：支持同时配置多个城市（如上海、宁波）。
+- 🏙️ **全国通**：支持全国任何县级及以上城市推送（如：上海,宁波,义乌）。
 - 💬 **趣味吐槽**：内置随机吐槽，让天气预报不再枯燥。
-- ☁️ **云端运行**：支持 GitHub Actions，零成本 24/7 自动运行。
-
-## 技术栈
-
-- Python 3.11+
-- [和风天气 API](https://dev.qweather.com/) - 专业天气数据源
-- 企业微信群机器人/自建应用 - 消息推送通道
-- GitHub Actions - 自动化调度
+- ☁️ **零成本云运行**：使用 GitHub Actions，无需电脑开机，完全免费。
 
 ---
 
-## 云端部署 (GitHub Actions) - 推荐方案
+## 🚀 零代码部署教程 (推荐)
 
-使用 GitHub Actions 可以在不保持电脑开启的情况下，每天免费、稳定地接收推送。
+你不需要下载任何代码，直接在 GitHub 网页上即可完成部署。
 
-### 配置步骤
+### 第一步：准备 API 密钥
+1. **和风天气**: 访问 [和风天气开发平台](https://dev.qweather.com/)，注册并创建一个项目，获取 `API Key`。
+2. **企业微信机器人**: 
+   - 在企业微信群中，点击「添加机器人」->「新创建一个机器人」。
+   - 复制机器人的 `Webhook 地址`。
 
-1. 将本项目上传至你的 GitHub **私有仓库**。
-2. 在仓库页面点击 `Settings` -> `Secrets and variables` -> `Actions`。
-3. 点击 `New repository secret`，依次添加以下环境变量：
+### 第二步：导入项目到你的私有仓库
+1. 在本页面右上角点击 **Use this template** (如果有) 或直接 **Fork** 本仓库。
+2. **强烈建议**：在 Fork 页面勾选 **Copy the master branch only**。
+3. 为了保护隐私，你可以创建一个新的**私有仓库 (Private Repository)**，然后通过 GitHub 的 `Import repository` 功能将本仓库地址导入。
 
-| Secret Name | 说明 | 示例值 |
-| :--- | :--- | :--- |
-| `HEFENG_API_KEY` | 和风天气 API Key | `2a27458f...` |
-| `WECOM_WEBHOOK_URL` | **推荐**：企业微信群机器人 Webhook 地址 | `https://qyapi.weixin.qq.com/...` |
-| `CITY` | 推送城市，多个用逗号隔开 | `上海,宁波` |
-| `HEFENG_API_HOST` | 和风天气 API Host | `n94nmv63jv.re.qweatherapi.com` |
-| `WECOM_CORP_ID` | 企业微信 CorpID (可选) | `wwf3c...` |
-| `WECOM_APP_SECRET` | 企业微信应用 Secret (可选) | `KVj_6...` |
+### 第三步：配置 GitHub Secrets
+1. 在你的仓库页面，点击顶部菜单的 **Settings**。
+2. 在左侧菜单找到 **Secrets and variables** -> **Actions**。
+3. 点击 **New repository secret**，依次添加以下三个核心变量：
 
-4. **激活工作流**：在 `Actions` 选项卡选择 `Daily Weather Robot`，手动点击 `Run workflow` 测试。
+| Name (名称) | Value (值) |
+| :--- | :--- |
+| `HEFENG_API_KEY` | 填入你的和风天气 API Key |
+| `WECOM_WEBHOOK_URL` | 填入你的企业微信机器人 Webhook 地址 |
+| `CITY` | 填入城市名，多个用逗号隔开 (如：上海,宁波) |
 
-> 💡 **为什么推荐 Webhook？** GitHub 服务器 IP 经常变化。使用群机器人 Webhook 可以绕过企业微信自建应用的“可信 IP”限制，实现零维护运行。
-
----
-
-## 本地快速开始
-
-### 1. 环境准备
-```bash
-conda create -n weatherrobot python=3.11
-conda activate weatherrobot
-pip install -r requirements.txt
-```
-
-### 2. 密钥配置
-复制 `.env.example` 为 `.env` 并填写相关信息：
-```ini
-HEFENG_API_KEY=你的和风天气KEY
-WECOM_WEBHOOK_URL=你的群机器人链接
-CITY=上海,宁波
-```
-
-### 3. 运行
-```bash
-python main.py  # 启动长期调度任务
-# 或
-python run_once.py  # 立即发送一次进行测试
-```
+### 第四步：启动机器人
+1. 点击仓库顶部的 **Actions** 选项卡。
+2. 在左侧选择 **Daily Weather Robot**。
+3. 如果页面显示 `Workflows aren't run...`，点击绿色按钮 **Enable Actions**。
+4. 点击右侧的 **Run workflow** -> **Run workflow** 绿色按钮手动测试一次。
+5. **大功告成！** 机器人现在会每天北京时间早上 06:00 准时给你发消息。
 
 ---
 
-## 运行成本说明 (FAQ)
+## 🛠️ 进阶：本地运行
 
-- **GitHub Actions 收费吗？**
-  对于私有仓库，GitHub 每个月提供 2,000 分钟免费额度。本项目每天运行 1 分钟，每月仅需 30 分钟，**完全免费**。
-- **API 收费吗？**
-  和风天气免费版每日提供 1,000 次请求，企业微信推送目前也是免费的，足以满足个人使用。
-- **如何增加城市？**
-  在配置中的 `CITY` 字段添加城市名即可，例如 `CITY=上海,宁波,杭州`。代码已内置相关城市代码映射。
+如果你想在本地运行或二次开发：
+
+1. **克隆代码**：
+   ```bash
+   git clone https://github.com/your-username/weather-robot.git
+   cd weather-robot
+   ```
+2. **安装依赖**：
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. **配置文件**：
+   复制 `.env.example` 为 `.env` 并填写相关 API 密钥。
+4. **启动**：
+   ```bash
+   python main.py
+   ```
 
 ---
 
-## 项目结构
-- [weather_service.py](file:///e:/agent%20project/weather-robot/weather_service.py): 对接和风天气 API。
-- [message_generator.py](file:///e:/agent%20project/weather-robot/message_generator.py): 构建人性化的天气文案。
-- [wechat_client.py](file:///e:/agent%20project/weather-robot/wechat_client.py): 封装企业微信发送逻辑。
-- [scheduler.py](file:///e:/agent%20project/weather-robot/scheduler.py): 处理多城市循环推送及定时逻辑。
+## 💰 成本与安全 FAQ
 
-## License
-MIT
+- **收费吗？**
+  完全免费。GitHub Actions 每月提供 2,000 分钟额度，本项目每月仅消耗约 30 分钟。
+- **隐私安全吗？**
+  只要你的仓库设为 **Private (私有)**，且密钥填在 **Secrets** 中，其他人就无法看到你的 API Key 和推送内容。
+- **如何停止推送？**
+  在 Actions 页面点击 `Disable workflow` 即可。
+
+## 📄 License
+[MIT](LICENSE)
