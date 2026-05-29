@@ -4,11 +4,13 @@ from WXBizMsgCrypt import WXBizMsgCrypt
 from flask import Flask, request
 import os
 
+from config import config
+
 app = Flask(__name__)
 
-TOKEN = "HjBDovyST"
-ENCODING_AES_KEY = "3a4PlyTJLsKSMLRm28l60q3u1YqHmrsEQt7heyo7qPz"
-CORP_ID = "wwf3c53a68a102c7ca"
+TOKEN = config.WECOM_TOKEN
+ENCODING_AES_KEY = config.WECOM_ENCODING_AES_KEY
+CORP_ID = config.WECOM_CORP_ID
 
 qy_api = WXBizMsgCrypt(TOKEN, ENCODING_AES_KEY, CORP_ID)
 

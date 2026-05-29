@@ -7,4 +7,9 @@ env/
 venv/
 .env
 *.log
-openssl-*-win-*/
+密钥/
+openssl-*/
+ngrok-*/
+cloudflared.exe
+weworkapi_python/**/*.pyc
+__pycache__/
