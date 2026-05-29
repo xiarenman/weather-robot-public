@@ -36,6 +36,7 @@
    - `WECOM_TO_USER`
    - `WECOM_TOKEN`
    - `WECOM_ENCODING_AES_KEY`
+   - `WECOM_WEBHOOK_URL` (推荐，解决 IP 限制问题)
    - `CITY` (可选，默认为上海)
 4. 工作流会自动在每天北京时间 06:00 运行。你也可以在 `Actions` 页面手动点击 `Run workflow` 进行测试。
 

@@ -33,5 +33,6 @@ jobs:
           WECOM_TO_USER: ${{ secrets.WECOM_TO_USER }}
           WECOM_TOKEN: ${{ secrets.WECOM_TOKEN }}
           WECOM_ENCODING_AES_KEY: ${{ secrets.WECOM_ENCODING_AES_KEY }}
+          WECOM_WEBHOOK_URL: ${{ secrets.WECOM_WEBHOOK_URL }}
           CITY: ${{ secrets.CITY }}
         run: python run_once.py

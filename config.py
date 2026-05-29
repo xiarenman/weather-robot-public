@@ -14,6 +14,7 @@ class Config:
     WECOM_TO_USER = os.getenv("WECOM_TO_USER")
     WECOM_TOKEN = os.getenv("WECOM_TOKEN")
     WECOM_ENCODING_AES_KEY = os.getenv("WECOM_ENCODING_AES_KEY")
+    WECOM_WEBHOOK_URL = os.getenv("WECOM_WEBHOOK_URL")
 
     CITY = os.getenv("CITY", "上海")
     SCHEDULE_HOUR = int(os.getenv("SCHEDULE_HOUR", 6))

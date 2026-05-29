@@ -11,10 +11,17 @@ def send_daily_weather():
         weather_data = weather_service.get_weather()
         forecast_data = weather_service.get_daily_forecast()
         message = message_generator.generate(weather_data, forecast_data)
-        wechat_client.send_message(message)
-        print(f"Weather message sent successfully at {datetime.now()}")
+        
+        # 优先使用 Webhook 发送
+        if config.WECOM_WEBHOOK_URL:
+            wechat_client.send_webhook_message(message)
+            print(f"Weather message sent via Webhook successfully at {datetime.now()}")
+        else:
+            wechat_client.send_message(message)
+            print(f"Weather message sent via App successfully at {datetime.now()}")
     except Exception as e:
         print(f"Failed to send weather message: {e}")
+        raise e
 
 def start_scheduler():
     scheduler = BlockingScheduler()

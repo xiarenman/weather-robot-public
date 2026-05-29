@@ -6,7 +6,24 @@ class WeChatClient:
         self.corp_id = config.WECOM_CORP_ID
         self.agent_id = config.WECOM_AGENT_ID
         self.app_secret = config.WECOM_APP_SECRET
+        self.webhook_url = config.WECOM_WEBHOOK_URL
         self.access_token = None
+
+    def send_webhook_message(self, message):
+        if not self.webhook_url:
+            raise Exception("WECOM_WEBHOOK_URL is not configured")
+        
+        payload = {
+            "msgtype": "text",
+            "text": {
+                "content": message
+            }
+        }
+        response = requests.post(self.webhook_url, json=payload, timeout=10)
+        data = response.json()
+        if data.get("errcode") != 0:
+            raise Exception(f"Failed to send webhook message: {data}")
+        return data
 
     def get_access_token(self):
         url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken"
