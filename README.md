@@ -19,6 +19,28 @@
 - 和风天气API - 天气数据
 - 企业微信应用消息API - 消息推送
 
+## 云端部署 (GitHub Actions)
+
+项目支持通过 GitHub Actions 实现 24/7 自动运行，无需保持电脑开启。
+
+### 配置步骤
+
+1. 将项目上传至你的 GitHub 私有仓库（**强烈建议使用私有仓库**以保护配置）。
+2. 在 GitHub 仓库页面，点击 `Settings` -> `Secrets and variables` -> `Actions`。
+3. 点击 `New repository secret`，依次添加以下 Secrets（名称必须完全一致）：
+   - `HEFENG_API_KEY`
+   - `HEFENG_API_HOST`
+   - `WECOM_CORP_ID`
+   - `WECOM_AGENT_ID`
+   - `WECOM_APP_SECRET`
+   - `WECOM_TO_USER`
+   - `WECOM_TOKEN`
+   - `WECOM_ENCODING_AES_KEY`
+   - `CITY` (可选，默认为上海)
+4. 工作流会自动在每天北京时间 06:00 运行。你也可以在 `Actions` 页面手动点击 `Run workflow` 进行测试。
+
+---
+
 ## 快速开始
 
 ### 1. 创建conda环境
