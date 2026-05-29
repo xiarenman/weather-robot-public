@@ -8,17 +8,20 @@ from wechat_client import wechat_client
 
 def send_daily_weather():
     try:
-        weather_data = weather_service.get_weather()
-        forecast_data = weather_service.get_daily_forecast()
-        message = message_generator.generate(weather_data, forecast_data)
-        
-        # 优先使用 Webhook 发送
-        if config.WECOM_WEBHOOK_URL:
-            wechat_client.send_webhook_message(message)
-            print(f"Weather message sent via Webhook successfully at {datetime.now()}")
-        else:
-            wechat_client.send_message(message)
-            print(f"Weather message sent via App successfully at {datetime.now()}")
+        cities = [c.strip() for c in config.CITY.split(",") if c.strip()]
+        for city in cities:
+            print(f"Fetching weather for {city}...")
+            weather_data = weather_service.get_weather(city)
+            forecast_data = weather_service.get_daily_forecast(city)
+            message = message_generator.generate(weather_data, forecast_data, city)
+            
+            # 优先使用 Webhook 发送
+            if config.WECOM_WEBHOOK_URL:
+                wechat_client.send_webhook_message(message)
+                print(f"Weather message for {city} sent via Webhook successfully at {datetime.now()}")
+            else:
+                wechat_client.send_message(message)
+                print(f"Weather message for {city} sent via App successfully at {datetime.now()}")
     except Exception as e:
         print(f"Failed to send weather message: {e}")
         raise e

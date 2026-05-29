@@ -25,9 +25,11 @@ WEATHER_COMPLAINTS = [
 ]
 
 class MessageGenerator:
-    def generate(self, weather_data, forecast_data):
+    def generate(self, weather_data, forecast_data, city=None):
         greeting = random.choice(GREETINGS)
         complaint = random.choice(WEATHER_COMPLAINTS)
+        
+        display_city = city or config.CITY
 
         temp = int(weather_data["temp"])
         feels_like = weather_data["feels_like"]
@@ -47,7 +49,7 @@ class MessageGenerator:
         clothing = self._get_clothing_advice(temp, weather_text)
         umbrella = self._get_umbrella_advice(precip_prob)
 
-        message = f"""☀️ {config.CITY}今日天气（{date_str} {weekday}）
+        message = f"""☀️ {display_city}今日天气（{date_str} {weekday}）
 
 {greeting}
 

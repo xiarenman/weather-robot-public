@@ -7,11 +7,11 @@ class WeatherService:
         self.api_host = config.HEFENG_API_HOST
         self.city = config.CITY
 
-    def get_weather(self):
+    def get_weather(self, city=None):
         url = f"https://{self.api_host}/v7/weather/now"
         params = {
             "key": self.api_key,
-            "location": self._get_location_code(),
+            "location": self._get_location_code(city),
         }
         response = requests.get(url, params=params, timeout=10)
         data = response.json()
@@ -21,11 +21,11 @@ class WeatherService:
 
         return self._parse_weather_data(data)
 
-    def get_daily_forecast(self):
+    def get_daily_forecast(self, city=None):
         url = f"https://{self.api_host}/v7/weather/3d"
         params = {
             "key": self.api_key,
-            "location": self._get_location_code(),
+            "location": self._get_location_code(city),
         }
         response = requests.get(url, params=params, timeout=10)
         data = response.json()
@@ -33,13 +33,13 @@ class WeatherService:
         if data.get("code") != "200":
             raise Exception(f"Weather API error: {data.get('code')}, message: {data.get('message')}")
 
-        return self._parse_forecast_data(data)
+        return self._parse_forecast_data(data, city)
 
-    def get_hourly_forecast(self):
+    def get_hourly_forecast(self, city=None):
         url = f"https://{self.api_host}/v7/weather/24h"
         params = {
             "key": self.api_key,
-            "location": self._get_location_code(),
+            "location": self._get_location_code(city),
         }
         response = requests.get(url, params=params, timeout=10)
         data = response.json()
@@ -49,20 +49,22 @@ class WeatherService:
 
         return self._parse_hourly_data(data)
 
-    def _get_precip_prob(self):
+    def _get_precip_prob(self, city=None):
         try:
-            hourly_data = self.get_hourly_forecast()
+            hourly_data = self.get_hourly_forecast(city)
             if hourly_data and len(hourly_data) > 0:
                 return hourly_data[0].get("precip_prob", "0")
         except:
             pass
         return "0"
 
-    def _get_location_code(self):
+    def _get_location_code(self, city=None):
+        target_city = city or self.city
         city_codes = {
             "上海": "101020100",
+            "宁波": "101210401",
         }
-        return city_codes.get(self.city, "101020100")
+        return city_codes.get(target_city, "101020100")
 
     def _parse_weather_data(self, data):
         now = data.get("now", {})
@@ -76,12 +78,12 @@ class WeatherService:
             "precip": now.get("precip"),
         }
 
-    def _parse_forecast_data(self, data):
+    def _parse_forecast_data(self, data, city=None):
         daily = data.get("daily", [])[0] if data.get("daily") else {}
         return {
             "temp_max": daily.get("tempMax"),
             "temp_min": daily.get("tempMin"),
-            "precip_prob": self._get_precip_prob(),
+            "precip_prob": self._get_precip_prob(city),
         }
 
     def _parse_hourly_data(self, data):
