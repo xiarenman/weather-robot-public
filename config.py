@@ -6,7 +6,8 @@ load_dotenv()
 
 class Config:
     HEFENG_API_KEY = os.getenv("HEFENG_API_KEY")
-    HEFENG_API_HOST = os.getenv("HEFENG_API_HOST")
+    # 设置默认 Host，防止环境变量缺失导致 URL 错误
+    HEFENG_API_HOST = os.getenv("HEFENG_API_HOST", "n94nmv63jv.re.qweatherapi.com")
 
     WECOM_CORP_ID = os.getenv("WECOM_CORP_ID")
     WECOM_AGENT_ID = os.getenv("WECOM_AGENT_ID")
