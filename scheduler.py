@@ -7,9 +7,12 @@ from message_generator import message_generator
 from wechat_client import wechat_client
 
 def send_daily_weather():
-    try:
-        cities = [c.strip() for c in config.CITY.split(",") if c.strip()]
-        for city in cities:
+    # 兼容中英文逗号，并过滤空字符串
+    raw_cities = config.CITY.replace("，", ",")
+    cities = [c.strip() for c in raw_cities.split(",") if c.strip()]
+    
+    for city in cities:
+        try:
             print(f"Fetching weather for {city}...")
             weather_data = weather_service.get_weather(city)
             forecast_data = weather_service.get_daily_forecast(city)
@@ -22,9 +25,11 @@ def send_daily_weather():
             else:
                 wechat_client.send_message(message)
                 print(f"Weather message for {city} sent via App successfully at {datetime.now()}")
-    except Exception as e:
-        print(f"Failed to send weather message: {e}")
-        raise e
+        except Exception as e:
+            print(f"Failed to send weather message for {city}: {e}")
+            # 如果是最后一个城市报错，仍然抛出异常以通知 GitHub Actions
+            if city == cities[-1]:
+                raise e
 
 def start_scheduler():
     scheduler = BlockingScheduler()
