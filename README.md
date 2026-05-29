@@ -29,21 +29,31 @@ conda activate weatherrobot
 pip install -r requirements.txt
 ```
 
-### 2. 配置API密钥
+### 2. 配置 API 密钥
 
-在 `config.py` 中填入以下配置：
+项目使用 `.env` 文件管理敏感配置。
 
-```python
+1. 复制模板文件：
+   ```bash
+   cp .env.example .env
+   ```
+2. 在 `.env` 中填入你的配置信息：
+
+```ini
 # 和风天气API
-HEFENG_API_KEY = "你的API_KEY"
-HEFENG_API_HOST = "你的API_HOST"
+HEFENG_API_KEY=你的API_KEY
+HEFENG_API_HOST=n94nmv63jv.re.qweatherapi.com
 
 # 企业微信
-WECOM_CORP_ID = "企业ID"
-WECOM_AGENT_ID = "应用AgentID"
-WECOM_APP_SECRET = "应用Secret"
-WECOM_TO_USER = "接收消息的用户ID"
+WECOM_CORP_ID=企业ID
+WECOM_AGENT_ID=应用AgentID
+WECOM_APP_SECRET=应用Secret
+WECOM_TO_USER=接收消息的用户ID
+WECOM_TOKEN=回调验证Token
+WECOM_ENCODING_AES_KEY=回调验证AESKey
 ```
+
+> ⚠️ **安全警告**: 请勿将 `.env` 文件提交到公共 Git 仓库。项目已配置 `.gitignore` 自动忽略该文件。
 
 ### 3. 启动定时任务
 
