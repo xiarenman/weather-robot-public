@@ -1,9 +1,8 @@
 import os
 
 class Config:
-    HEFENG_API_KEY = os.getenv("HEFENG_API_KEY", "YOUR_API_KEY_HERE")
-    HEFENG_KEY_ID = os.getenv("HEFENG_KEY_ID", "TJGUJN8E5W")
-    HEFENG_PRIVATE_KEY_PATH = os.getenv("HEFENG_PRIVATE_KEY_PATH", "密钥/ed25519-private.pem")
+    HEFENG_API_KEY = os.getenv("HEFENG_API_KEY", "2a27458fdb1f4cebae9ad91dddb63fce")
+    HEFENG_API_HOST = os.getenv("HEFENG_API_HOST", "n94nmv63jv.re.qweatherapi.com")
 
     WECOM_CORP_ID = os.getenv("WECOM_CORP_ID", "wwf3c53a68a102c7ca")
     WECOM_AGENT_ID = os.getenv("WECOM_AGENT_ID", "1000002")

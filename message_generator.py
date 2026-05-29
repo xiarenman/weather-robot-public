@@ -1,5 +1,6 @@
 import random
 from datetime import datetime
+from config import config
 
 GREETINGS = [
     "早上好，今天是元气满满的一天！来看看天气吧～",
@@ -28,16 +29,16 @@ class MessageGenerator:
         greeting = random.choice(GREETINGS)
         complaint = random.choice(WEATHER_COMPLAINTS)
 
-        temp = weather_data["temp"]
+        temp = int(weather_data["temp"])
         feels_like = weather_data["feels_like"]
         humidity = weather_data["humidity"]
         wind_dir = weather_data["wind_dir"]
         wind_scale = weather_data["wind_scale"]
         weather_text = weather_data["weather_text"]
 
-        temp_max = forecast_data["temp_max"]
-        temp_min = forecast_data["temp_min"]
-        precip_prob = forecast_data["precip_prob"]
+        temp_max = int(forecast_data["temp_max"])
+        temp_min = int(forecast_data["temp_min"])
+        precip_prob = int(forecast_data["precip_prob"])
 
         today = datetime.now()
         date_str = today.strftime("%Y年%m月%d日")
