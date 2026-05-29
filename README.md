@@ -42,9 +42,9 @@ pip install -r requirements.txt
 ```ini
 # 和风天气API
 HEFENG_API_KEY=你的API_KEY
-HEFENG_API_HOST=n94nmv63jv.re.qweatherapi.com
+HEFENG_API_HOST=你的API_HOST
 
-# 企业微信
+# 企业微信应用消息API
 WECOM_CORP_ID=企业ID
 WECOM_AGENT_ID=应用AgentID
 WECOM_APP_SECRET=应用Secret
