@@ -22,8 +22,13 @@ def send_daily_weather():
             if config.WECOM_WEBHOOK_URL:
                 webhooks = [url.strip() for url in config.WECOM_WEBHOOK_URL.replace("，", ",").split(",") if url.strip()]
                 for url in webhooks:
-                    wechat_client.send_webhook_message(message, webhook_url=url)
-                    print(f"Weather message for {city} sent via Webhook successfully at {datetime.now()}")
+                    try:
+                        wechat_client.send_webhook_message(message, webhook_url=url)
+                        # 获取 Webhook 的唯一标识（取 key 的后 4 位）用于日志区分
+                        webhook_id = url.split("key=")[-1][-4:] if "key=" in url else "unknown"
+                        print(f"Weather message for {city} sent via Webhook[{webhook_id}] successfully at {datetime.now()}")
+                    except Exception as webhook_err:
+                        print(f"Failed to send to Webhook[{url}]: {webhook_err}")
             else:
                 wechat_client.send_message(message)
                 print(f"Weather message for {city} sent via App successfully at {datetime.now()}")

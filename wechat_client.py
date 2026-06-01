@@ -59,7 +59,7 @@ class WeChatClient:
         data = response.json()
 
         if data.get("errcode") != 0:
-            if data.get("errcode") == 40014:
+            if data.get("errcode") in [40014, 42001]:
                 self.get_access_token()
                 return self.send_message(message, to_user)
             raise Exception(f"Failed to send message: {data}")
