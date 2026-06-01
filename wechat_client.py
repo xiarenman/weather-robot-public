@@ -9,9 +9,10 @@ class WeChatClient:
         self.webhook_url = config.WECOM_WEBHOOK_URL
         self.access_token = None
 
-    def send_webhook_message(self, message):
-        if not self.webhook_url:
-            raise Exception("WECOM_WEBHOOK_URL is not configured")
+    def send_webhook_message(self, message, webhook_url=None):
+        url = webhook_url or self.webhook_url
+        if not url:
+            raise Exception("Webhook URL is not configured")
         
         payload = {
             "msgtype": "text",
@@ -19,7 +20,7 @@ class WeChatClient:
                 "content": message
             }
         }
-        response = requests.post(self.webhook_url, json=payload, timeout=10)
+        response = requests.post(url, json=payload, timeout=10)
         data = response.json()
         if data.get("errcode") != 0:
             raise Exception(f"Failed to send webhook message: {data}")

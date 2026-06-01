@@ -36,7 +36,7 @@
 | Name (名称) | Value (值) |
 | :--- | :--- |
 | `HEFENG_API_KEY` | 填入你的和风天气 API Key |
-| `WECOM_WEBHOOK_URL` | 填入你的企业微信机器人 Webhook 地址 |
+| `WECOM_WEBHOOK_URL` | 填入你的企业微信机器人 Webhook 地址（支持多个，逗号隔开） |
 | `CITY` | 填入城市名，多个用逗号隔开 (如：上海,宁波) |
 
 ### 第四步：启动机器人

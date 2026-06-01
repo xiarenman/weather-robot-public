@@ -18,10 +18,12 @@ def send_daily_weather():
             forecast_data = weather_service.get_daily_forecast(city)
             message = message_generator.generate(weather_data, forecast_data, city)
             
-            # 优先使用 Webhook 发送
+            # 优先使用 Webhook 发送（支持多个 Webhook）
             if config.WECOM_WEBHOOK_URL:
-                wechat_client.send_webhook_message(message)
-                print(f"Weather message for {city} sent via Webhook successfully at {datetime.now()}")
+                webhooks = [url.strip() for url in config.WECOM_WEBHOOK_URL.replace("，", ",").split(",") if url.strip()]
+                for url in webhooks:
+                    wechat_client.send_webhook_message(message, webhook_url=url)
+                    print(f"Weather message for {city} sent via Webhook successfully at {datetime.now()}")
             else:
                 wechat_client.send_message(message)
                 print(f"Weather message for {city} sent via App successfully at {datetime.now()}")
